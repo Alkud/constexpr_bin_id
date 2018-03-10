@@ -4,9 +4,15 @@
 // Реализовать constexpr функцию bin_id - определения ближайшей большей степени двойки
 namespace
 {
-  constexpr size_t bin_id(size_t x, size_t power = 0)
+  constexpr size_t bin_id(size_t x)
   {
-    return ( x / 2 == 0 ? power : bin_id((x + 1) / 2 , power + 1) ) ;
+    size_t power{};
+    while(x / 2 != 0)
+    {
+      x = (x + 1) / 2;
+      power++;
+    }
+    return power;
   }
 
   BOOST_STATIC_ASSERT(bin_id(0) == 0);
@@ -25,6 +31,9 @@ namespace
   BOOST_STATIC_ASSERT(bin_id(1024*1024*1024-127) == 30);
   BOOST_STATIC_ASSERT(bin_id(1024*1024*1024) == 30);
   BOOST_STATIC_ASSERT(bin_id(1024*1024*1024+127) == 31);
+  
+  BOOST_STATIC_ASSERT(bin_id(63) == 6);
+  BOOST_STATIC_ASSERT(bin_id(64) == 6);
 }
 
 int main()
